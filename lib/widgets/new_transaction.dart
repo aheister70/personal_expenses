@@ -13,10 +13,43 @@ class NewTransaction extends StatefulWidget {
   State<NewTransaction> createState() => _NewTransactionState();
 }
 
+// life cycle methods can improve performance. You add them to the state
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime _selectedDate;
+
+  _NewTransactionState() {
+    print('Constructor NewTransaction State');
+  }
+
+// initState is implemented by State where we inherit it from,
+// it is often used to load some data from a database or do an http request
+// with @override we say that we deliberately want to use our own
+  @override
+  void initState() {
+// super is a keyword in Dart that refers to the parent class:
+// it refers to the parent object (State) and makes sure that we also call initState (of State) there
+    print('initState NewTransaction Widget');
+    super.initState();
+  }
+
+// Here you take the old widget as property to fi compare it to the new widget
+// It can be used when your data from the db is changed, fi a new id
+  @override
+  void didUpdateWidget(covariant NewTransaction oldWidget) {
+    print('didUpdateWidget NewTransaction Widget');
+    super.didUpdateWidget(oldWidget);
+  }
+
+// called when a widget is removed, great for cleaning up data
+// fi when you have a chat application, you can clean up the connection
+// to the server when your widget is removed, cleaning up listeners etc you do here
+  @override
+  void dispose() {
+    print('dispose NewTransaction Widget');
+    super.dispose();
+  }
 
   void _submitData() {
     if (_amountController.text.isEmpty) {

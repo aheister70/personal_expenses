@@ -40,30 +40,30 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 6,
-      margin: EdgeInsets.all(20),
-      child: Padding(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: groupedTransactionsValues.map((data) {
+        elevation: 6,
+        margin: EdgeInsets.all(20),
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: groupedTransactionsValues.map((data) {
 // instead of Flexible, you can also use Expanded. That has default FlexFit.tight
-            return Flexible(
+              return Flexible(
 // with the flex property you can divide the remained space between widgets,
 // 1 does nothing, but 2 gives the widget twice the amount of space
-              flex: 1,
-              fit: FlexFit.tight,
-              child: ChartBar(
-                data['day'],
-                data['amount'],
-                totalSpending == 0.0
-                    ? 0.0
-                    : (data['amount'] as double) / totalSpending,
-              ),
-            );
-          }).toList(),
+                flex: 1,
+                fit: FlexFit.tight,
+                child: ChartBar(
+                  data['day'],
+                  data['amount'],
+                  totalSpending == 0.0
+                      ? 0.0
+                      : (data['amount'] as double) / totalSpending,
+                ),
+              );
+            }).toList(),
+          ),
         ),
-      ),
-    );
+      );
   }
 }

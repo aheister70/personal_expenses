@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import '../widgets/adaptive_flat_button.dart';
 import 'package:intl/intl.dart';
 
+// In a statefulwidget you have a split into 2 classes, in the first Flutter creates a state object
+// The state object is an independent object managed in memory. Widget holds a reference to the state object
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
@@ -58,61 +61,62 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Title',
-                labelStyle: Theme.of(context).textTheme.headline2,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            // This code tells how much space is occupied by the keyboard (or other inset object)
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                  labelStyle: Theme.of(context).textTheme.headline2,
+                ),
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
               ),
-              controller: _titleController,
-              onSubmitted: (_) => _submitData(),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Amount',
-                labelStyle: Theme.of(context).textTheme.headline2,
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                  labelStyle: Theme.of(context).textTheme.headline2,
+                ),
+                controller: _amountController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                // the _ means I get a value, but I am not doing anything with it
+                onSubmitted: (_) => _submitData(),
               ),
-              controller: _amountController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-// the _ means I get a value, but I am not doing anything with it
-              onSubmitted: (_) => _submitData(),
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      _selectedDate == null
-                          ? 'No date chosen!'
-                          : 'Picked date: ${DateFormat.yMd().format(_selectedDate)}',
-                      style: Theme.of(context).textTheme.headline2,
+              Container(
+                height: 70,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? 'No date chosen!'
+                            : 'Picked date: ${DateFormat.yMd().format(_selectedDate)}',
+                        style: Theme.of(context).textTheme.headline2,
+                      ),
                     ),
-                  ),
-                  TextButton(
-                    child: Text(
-                      'Choose date',
-                      style: Theme.of(context).textTheme.button,
-                    ),
-// without parethesis, we just want to pass a reference to the method
-                    onPressed: _presentDatePicker,
-                  ),
-                ],
+                    AdaptiveFlatButton('Choose date', _presentDatePicker)
+                  ],
+                ),
               ),
-            ),
-            ElevatedButton(
-              child: Text(
-                'Add transaction',
+              ElevatedButton(
+                child: Text(
+                  'Add transaction',
+                ),
+                onPressed: _submitData,
               ),
-              onPressed: _submitData,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
